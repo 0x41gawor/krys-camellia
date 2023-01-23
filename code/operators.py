@@ -28,3 +28,5 @@ def bitwise_complement(x):
 
 def hexadecimal_representation(x):
     return hex(x)
+
+#If you don't want the prefix, you can use string slicing to remove it, for example: binary_num = bin(decimal_num)[2:].
