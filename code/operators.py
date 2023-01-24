@@ -1,7 +1,7 @@
 # from the given two vectors, creates a new one as the result of AND operation bit by bit
 def AND(x, y):
    return bytes(a & b for a, b in zip(x, y))
-# from the given two vectors, creates a new one as the result of OR operation bit by bit
+# from the given two vectors, creates a new one as the result of OR operation bit by bit#######
 def OR(x, y):
     return bytes(a | b for a, b in zip(x, y))
 # from the given vector, creates a new one as the result of XOR operation bit by bit
