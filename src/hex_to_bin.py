@@ -97,7 +97,3 @@ def from_hex(x):
         result = o.CONCATENATE(result,map_hex_to_bin(x))
     
     return result
-
-print(x1)
-print(to_hex(x1))
-print(from_hex('0101C1507CAA570E'))
