@@ -1,8 +1,11 @@
-import core.operators as o
+# Key derivation
+# KL i KR mają mieć po 128bitów
 
-x1 = b'0000000100000001110000010101000001111100101010100101011100001110'
-k1 = b'0011100101100000010100010101000001111100111010100101011100001111'
-print(f'TU PATRZCIE: {x1.hex()}')
+from main import N_KEY_BITS
+from operators import *
+from hex_to_bin import *
+
+# ================================================================== S-Box =================================================================
 
 sbox1 = [112, 130, 44, 236, 179, 39, 192, 229, 228, 133, 87, 53, 234, 12, 174, 65,
          35, 239, 107, 147, 69, 25, 165, 33, 237, 14, 79, 78, 29, 101, 146, 189,
@@ -72,16 +75,28 @@ sbox4 = [112, 44, 179, 192, 228, 87, 234, 174, 35, 107, 69, 165, 237, 79, 29, 14
          121, 140, 110, 142, 245, 182, 253, 89, 152, 106, 70, 186, 37, 66, 162, 250,
          7, 85, 238, 10, 73, 104, 56, 164, 40, 123, 201, 193, 227, 244, 199, 158]
 
+# =================================================================^ S-Box ^================================================================
 
+# ================================================================== Sigma =================================================================
+sigma1 = from_hex('A09E667F3BCC908B')
+sigma2 = from_hex('B67AE8584CAA73B2')
+sigma3 = from_hex('C6EF372FE94F82BE')
+sigma4 = from_hex('54FF53A5F1D36F1C')
+sigma5 = from_hex('10E527FADE682D1D')
+sigma6 = from_hex('B05688C2B3E6C1FD')
+# =================================================================^ Sigma ^================================================================
+
+
+# =============================================================== F - Function ==============================================================
 def S_function(x):
-    y1 = o.LEFT(x, 8)
-    y2 = o.RIGHT(o.LEFT(x, 16), 8)
-    y3 = o.RIGHT(o.LEFT(x, 24), 8)
-    y4 = o.RIGHT(o.LEFT(x, 32), 8)
-    y5 = o.RIGHT(o.LEFT(x, 40), 8)
-    y6 = o.RIGHT(o.LEFT(x, 48), 8)
-    y7 = o.RIGHT(o.LEFT(x, 56), 8)
-    y8 = o.RIGHT(o.LEFT(x, 64), 8)
+    y1 = LEFT(x, 8)
+    y2 = RIGHT(LEFT(x, 16), 8)
+    y3 = RIGHT(LEFT(x, 24), 8)
+    y4 = RIGHT(LEFT(x, 32), 8)
+    y5 = RIGHT(LEFT(x, 40), 8)
+    y6 = RIGHT(LEFT(x, 48), 8)
+    y7 = RIGHT(LEFT(x, 56), 8)
+    y8 = RIGHT(LEFT(x, 64), 8)
 
     y1 = '{0:08b}'.format(sbox1[int(y1, 2)]).encode('ascii')
     y2 = '{0:08b}'.format(sbox2[int(y2, 2)]).encode('ascii')
@@ -96,39 +111,77 @@ def S_function(x):
 
 
 def P_function(x):
-    t1 = o.LEFT(x, 8)
-    t2 = o.RIGHT(o.LEFT(x, 16), 8)
-    t3 = o.RIGHT(o.LEFT(x, 24), 8)
-    t4 = o.RIGHT(o.LEFT(x, 32), 8)
-    t5 = o.RIGHT(o.LEFT(x, 40), 8)
-    t6 = o.RIGHT(o.LEFT(x, 48), 8)
-    t7 = o.RIGHT(o.LEFT(x, 56), 8)
-    t8 = o.RIGHT(o.LEFT(x, 64), 8)
+    t1 = LEFT(x, 8)
+    t2 = RIGHT(LEFT(x, 16), 8)
+    t3 = RIGHT(LEFT(x, 24), 8)
+    t4 = RIGHT(LEFT(x, 32), 8)
+    t5 = RIGHT(LEFT(x, 40), 8)
+    t6 = RIGHT(LEFT(x, 48), 8)
+    t7 = RIGHT(LEFT(x, 56), 8)
+    t8 = RIGHT(LEFT(x, 64), 8)
 
-    y1 = o.XOR(o.XOR(o.XOR(o.XOR(o.XOR(t1, t3), t4), t6), t7), t8)
-    y2 = o.XOR(o.XOR(o.XOR(o.XOR(o.XOR(t1, t2), t4), t5), t7), t8)
-    y3 = o.XOR(o.XOR(o.XOR(o.XOR(o.XOR(t1, t2), t3), t5), t6), t8)
-    y4 = o.XOR(o.XOR(o.XOR(o.XOR(o.XOR(t2, t3), t4), t5), t6), t7)
-    y5 = o.XOR(o.XOR(o.XOR(o.XOR(t1, t2), t6), t7), t8)
-    y6 = o.XOR(o.XOR(o.XOR(o.XOR(t2, t3), t5), t7), t8)
-    y7 = o.XOR(o.XOR(o.XOR(o.XOR(t3, t4), t5), t6), t8)
-    y8 = o.XOR(o.XOR(o.XOR(o.XOR(t1, t4), t5), t6), t7)
+    y1 = XOR(XOR(XOR(XOR(XOR(t1, t3), t4), t6), t7), t8)
+    y2 = XOR(XOR(XOR(XOR(XOR(t1, t2), t4), t5), t7), t8)
+    y3 = XOR(XOR(XOR(XOR(XOR(t1, t2), t3), t5), t6), t8)
+    y4 = XOR(XOR(XOR(XOR(XOR(t2, t3), t4), t5), t6), t7)
+    y5 = XOR(XOR(XOR(XOR(t1, t2), t6), t7), t8)
+    y6 = XOR(XOR(XOR(XOR(t2, t3), t5), t7), t8)
+    y7 = XOR(XOR(XOR(XOR(t3, t4), t5), t6), t8)
+    y8 = XOR(XOR(XOR(XOR(t1, t4), t5), t6), t7)
 
     return y1 + y2 + y3 + y4 + y5 + y6 + y7 + y8
 
 
-def F_function(x, k):
-    # print(P_function(S_function(o.XOR(x, k))))
-    # print(P_function(S_function(x)))
-    # result = P_function(S_function(x))
-    # y = o.XOR(x, k)
-    # print(y)
-    result = P_function(S_function(o.XOR(x, k)))
-    print(result)
-    # return P_function(S_function(o.XOR(x, k)))
+def F(x, k):
+    result = P_function(S_function(XOR(x, k)))
     return result
+# ==============================================================^ F - Function ^=============================================================
 
-# testing
-F_function(x1, k1)
 
-# print(o.XOR(x1, k1))
+# =============================================================== KL KR derivation ==============================================================
+
+def KL_KR_derivation(K):
+    KL = bytes()
+    KR = bytes()
+    if (N_KEY_BITS == 128): 
+        KL = K
+        KR = from_hex('00000000000000000000000000000000')
+    if (N_KEY_BITS == 192): 
+        KL = LEFT(K,128)
+        KR = CONCATENATE(RIGHT(K,64),NOT(RIGHT(K,64)))
+    if (N_KEY_BITS == 256):  
+        KL = LEFT(K,128)
+        KR = RIGHT(K,128)
+    return KL, KR
+
+# ==============================================================^ KL KR derivation ^=============================================================
+
+# =============================================================== KA KB derivation ==============================================================
+
+def KA_KB_generation(KL, KR):
+    #purple section
+    print(KL)
+    print(KR)
+    D1 = LEFT(XOR(KL,KR),64)
+    D2 = RIGHT(XOR(KL,KR),64)
+    print(D1)
+    print(D2)
+    D2 = XOR(D2,F(D1, sigma1))
+    D1 = XOR(D1,F(D2, sigma2))
+    #blue section
+    D1 = XOR(D1, LEFT(KL, 64))
+    D2 = XOR(D2, RIGHT(KL, 64))
+    D2 = XOR(D2, F(D1, sigma3))
+    D1 = XOR(D1, F(D2, sigma4))
+    KA = CONCATENATE(D1, D2)
+    #yellow section
+    if (N_KEY_BITS==192 or N_KEY_BITS==256):
+        D1 = LEFT(XOR(KA, KR), 64)
+        D2 = RIGHT(XOR(KA, KR), 64) 
+        D2 = XOR(D2, F(D1, sigma5))
+        D1 = XOR(D1, F(D2, sigma6))
+        KB = CONCATENATE(D1, D2)
+        return KA, KB
+    return KA, None
+
+# ==============================================================^ KA KB derivation ^=============================================================

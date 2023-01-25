@@ -1,5 +1,5 @@
 from hex_to_bin import *
-from aux import *
+from lib import *
 import sys
 
 
@@ -17,6 +17,7 @@ if __name__ == "__main__":
     # KEY = from_hex(sys.argv[1])
     # PLAINTEX = from_hex(sys.argv[2])
     KL, KR = KL_KR_derivation(KEY)
-    print(KL)
-    print(KR)
+    KA, KB = KA_KB_generation(KL, KR)
+    print(KA)
+    print(KB)
 
