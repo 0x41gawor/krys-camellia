@@ -81,12 +81,10 @@ def to_hex(x):
     hex_symbols = []
     i = 0
     temp = ''
-    print(x)
     for x in x:
         temp +=str(x-48)
         i+=1
         if (i%4==0):
-            print(temp)
             hex_symbols.append(map_bin_to_hex(temp))
             temp = ''
   
@@ -100,4 +98,6 @@ def from_hex(x):
     
     return result
 
-print(from_hex('0A'))
+print(x1)
+print(to_hex(x1))
+print(from_hex('0101C1507CAA570E'))
