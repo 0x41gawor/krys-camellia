@@ -6,13 +6,19 @@ import sys
 # Number of bits in the key 
 N_KEY_BITS = 128
 
-KEY =      from_hex('0AAABBB0011111100FFFFFF006969690') #128
+KEY =       from_hex('0AAABBB0011111100FFFFFF006969690') #128
 # KEY =      from_hex('0AAABBB0011111100FFFFFF0069696900FFFFFF006969690') #192
 # KEY =      from_hex('0AAABBB0011111100FFFFFF0069696900AAABBB0011111100FFFFFF006969690') #256
 PLAINTEXT = from_hex('00001111000011110000111100001111')
 
+def encrypt_block(PLAINTEXT, KEY):
 
-def encrypt(PLAINTEXT, keys):
+    KL, KR = KL_KR_derivation(KEY)
+    KA, KB = KA_KB_generation(KL, KR)
+    if (N_KEY_BITS == 128):
+        keys = subkeys_generation_128(KL, KR, KA, KB)
+    elif (N_KEY_BITS == 192 or  N_KEY_BITS == 256):
+        keys = subkeys_generation_192_256(KL, KR, KA, KB)
 
     if (N_KEY_BITS == 128):
         (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4) = keys
@@ -52,15 +58,24 @@ def encrypt(PLAINTEXT, keys):
     CIPHERTEXT = CONCATENATE(D1,D2)
     return CIPHERTEXT
 
-def invert_128(keys):
-    (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4) = keys
-    return (KW3, KW4, K18, K17, K16, K15, K14, K13, KL4, KL3, K12, K11, K10, K9, K8, K7, KL2, KL1, K6, K5, K4, K3, K2, K1, KW1, KW2)
+def decrypt_block(CIPHERTEXT, KEY):
 
-def invert_192_256(keys):
-    (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KL5, KL6, K19, K20, K21, K22, K23, K24, KW3, KW4) = keys
-    return (KW3, KW4, K24, K23, K22, K21, K20, K19, KL6, KL5, K18, K17, K16, K15, K14, K13, KL4, KL3, K12, K11, K10, K9, K8, K7, KL2, KL1, K6, K5, K4, K3, K2, K1, KW1, KW2)
+    KL, KR = KL_KR_derivation(KEY)
+    KA, KB = KA_KB_generation(KL, KR)
+    if (N_KEY_BITS == 128):
+        keys = subkeys_generation_128(KL, KR, KA, KB)
+    elif (N_KEY_BITS == 192 or  N_KEY_BITS == 256):
+        keys = subkeys_generation_192_256(KL, KR, KA, KB)
 
-def decrypt(CIPHERTEXT, keys):
+
+    def invert_128(keys):
+        (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4) = keys
+        return (KW3, KW4, K18, K17, K16, K15, K14, K13, KL4, KL3, K12, K11, K10, K9, K8, K7, KL2, KL1, K6, K5, K4, K3, K2, K1, KW1, KW2)
+
+    def invert_192_256(keys):
+        (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KL5, KL6, K19, K20, K21, K22, K23, K24, KW3, KW4) = keys
+        return (KW3, KW4, K24, K23, K22, K21, K20, K19, KL6, KL5, K18, K17, K16, K15, K14, K13, KL4, KL3, K12, K11, K10, K9, K8, K7, KL2, KL1, K6, K5, K4, K3, K2, K1, KW1, KW2)
+
     if (N_KEY_BITS == 128):
         (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4) = invert_128(keys)
     elif (N_KEY_BITS == 192 or  N_KEY_BITS == 256):
@@ -104,14 +119,8 @@ def decrypt(CIPHERTEXT, keys):
 if __name__ == "__main__":
     # KEY = from_hex(sys.argv[1])
     # PLAINTEXT = from_hex(sys.argv[2])
-    KL, KR = KL_KR_derivation(KEY)
-    KA, KB = KA_KB_generation(KL, KR)
-    if (N_KEY_BITS == 128):
-        keys = subkeys_generation_128(KL, KR, KA, KB)
-    elif (N_KEY_BITS == 192 or  N_KEY_BITS == 256):
-        keys = subkeys_generation_192_256(KL, KR, KA, KB)
-    print(PLAINTEXT)
-    CIPHERTEXT = encrypt(PLAINTEXT, keys)
-    print(CIPHERTEXT)
-    PLAINTEXT = decrypt(CIPHERTEXT, keys)
-    print(PLAINTEXT)
+    print(to_hex(PLAINTEXT))
+    CIPHERTEXT = encrypt_block(PLAINTEXT, KEY)
+    print(to_hex(CIPHERTEXT))
+    PLAINTEXT = decrypt_block(CIPHERTEXT, KEY)
+    print(to_hex(PLAINTEXT))

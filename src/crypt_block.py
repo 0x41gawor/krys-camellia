@@ -1,0 +1,1 @@
+# The name of the file is silly but the meaning is a follows: Common_part('encrypt', 'decrypt')
