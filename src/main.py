@@ -1,9 +1,22 @@
 from hex_to_bin import *
+from aux import *
+import sys
 
-KEY =      from_hex('0AAABBB0011111100FFFFFF006969690')
+
+# Number of bits in the key 
+N_KEY_BITS = 128
+
+KEY =      from_hex('0AAABBB0011111100FFFFFF006969690') #128
+# KEY =      from_hex('0AAABBB0011111100FFFFFF0069696900FFFFFF006969690') #192
+# KEY =      from_hex('0AAABBB0011111100FFFFFF0069696900AAABBB0011111100FFFFFF006969690') #256
 PLAINTEX = from_hex('00001111000011110000111100001111')
 
+
+
 if __name__ == "__main__":
-    print(KEY)
-    print(PLAINTEX)
-    
+    # KEY = from_hex(sys.argv[1])
+    # PLAINTEX = from_hex(sys.argv[2])
+    KL, KR = KL_KR_derivation(KEY)
+    print(KL)
+    print(KR)
+
