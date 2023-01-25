@@ -19,7 +19,15 @@ if __name__ == "__main__":
     KL, KR = KL_KR_derivation(KEY)
     KA, KB = KA_KB_generation(KL, KR)
     if (N_KEY_BITS == 128):
-        temp = (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4) = subkeys_generation_128(KL, KR, KA, KB)
+        (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4) = subkeys_generation_128(KL, KR, KA, KB)
     elif (N_KEY_BITS == 192 or  N_KEY_BITS == 256):
-        temp = (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KL5, KL6, K19, K20, K21, K22, K23, K24, KW3, KW4) = subkeys_generation_192_256(KL, KR, KA, KB)
-    print(temp)
+        (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KL5, KL6, K19, K20, K21, K22, K23, K24, KW3, KW4) = subkeys_generation_192_256(KL, KR, KA, KB)
+
+    # Key-whitening
+    D1 = XOR(LEFT(PLAINTEX,64), KW1)
+    D2 = XOR(RIGHT(PLAINTEX, 64), KW2)
+    # 1-st Feistel block
+    keys = (K1, K2, K3, K4, K5, K6)
+    D1, D2 = feistel_block(CONCATENATE(D1,D2), keys)
+    print(D1)
+    print(D2)

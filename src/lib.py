@@ -268,3 +268,34 @@ def subkeys_generation_192_256(KL, KR, KA, KB):
     return (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KL5, KL6, K19, K20, K21, K22, K23, K24, KW3, KW4)
 
 # ============================================================^ Subkeys Generation  ^============================================================
+
+
+# =============================================================   FEISTEL BLOCK  ================================================================
+# does the 6 round of Feistel Cipher on the given input (D1D2 input) 
+# as input 6-element tuple of keys is accepted
+def feistel_block(D1D2, keys):
+    D1 = o.LEFT(D1D2,64)
+    D2 = o.RIGHT(D1D2,64)
+    (k1, k2, k3, k4, k5, k6) = keys
+
+    # 1-st round
+    D1 = D1
+    D2 = o.XOR(D2, F(D1,k1))
+    # 2-nd round
+    D1 = o.XOR(D1, F(D2,k2))
+    D2 = D2
+    # 3-rd round
+    D1 = D1
+    D2 = o.XOR(D2, F(D1, k3))
+    # 4-th round
+    D1 = o.XOR(D1, F(D2, k4))
+    D2 = D2
+    # 5-th round
+    D1 = D1
+    D2 = o.XOR(D2, F(D1, k5))
+    # 6-th round
+    D1 = o.XOR(D1, F(D2, k6))
+    D2 = D2
+
+    return D1, D2
+# ============================================================^   FEISTEL BLOCK  ^===============================================================
