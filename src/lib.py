@@ -160,12 +160,8 @@ def KL_KR_derivation(K):
 
 def KA_KB_generation(KL, KR):
     #purple section
-    print(KL)
-    print(KR)
     D1 = LEFT(XOR(KL,KR),64)
     D2 = RIGHT(XOR(KL,KR),64)
-    print(D1)
-    print(D2)
     D2 = XOR(D2,F(D1, sigma1))
     D1 = XOR(D1,F(D2, sigma2))
     #blue section
@@ -185,3 +181,90 @@ def KA_KB_generation(KL, KR):
     return KA, None
 
 # ==============================================================^ KA KB derivation ^=============================================================
+
+
+# ============================================================= Subkeys Generation  =============================================================
+
+def subkeys_generation_128(KL, KR, KA, KB):
+    KW1 = o.LEFT(o.ROTATE(KL,0),64)
+    KW2 = o.RIGHT(o.ROTATE(KL,0),64)
+
+    K1 = o.LEFT(o.ROTATE(KA,0),64)
+    K2 = o.RIGHT(o.ROTATE(KA,0),64)
+    K3 = o.LEFT(o.ROTATE(KL,15),64)
+    K4 = o.RIGHT(o.ROTATE(KL,15),64)
+    K5 = o.LEFT(o.ROTATE(KA,15),64)
+    K6 = o.RIGHT(o.ROTATE(KA,15),64)
+
+    KL1 = o.LEFT(o.ROTATE(KA,30),64)
+    KL2 = o.RIGHT(o.ROTATE(KA,30),64)
+
+    K7 = o.LEFT(o.ROTATE(KL,45),64)
+    K8 = o.RIGHT(o.ROTATE(KL,45),64)
+    K9 = o.LEFT(o.ROTATE(KA,45),64)
+    K10 = o.RIGHT(o.ROTATE(KL,60),64)
+    K11 = o.LEFT(o.ROTATE(KA,60),64)
+    K12 = o.RIGHT(o.ROTATE(KA,60),64)
+
+    KL3 = o.LEFT(o.ROTATE(KL,77),64)
+    KL4 = o.RIGHT(o.ROTATE(KL,77),64)
+
+    K13 = o.LEFT(o.ROTATE(KL,94),64)
+    K14 = o.RIGHT(o.ROTATE(KL,94),64)
+    K15 = o.LEFT(o.ROTATE(KA,94),64)
+    K16 = o.RIGHT(o.ROTATE(KA,94),64)
+    K17 = o.LEFT(o.ROTATE(KL,111),64)
+    K18 = o.RIGHT(o.ROTATE(KL,111),64)
+
+    KW3 = o.LEFT(o.ROTATE(KL,111),64) 
+    KW4 = o.RIGHT(o.ROTATE(KL,111),64)
+
+    return (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KW3, KW4)
+
+def subkeys_generation_192_256(KL, KR, KA, KB):
+    KW1 = o.LEFT(o.ROTATE(KL,0),64) # 4 -> 64
+    KW2 = o.RIGHT(o.ROTATE(KL,0),64)
+
+    K1 = o.LEFT(o.ROTATE(KB,0),64)
+    K2 = o.RIGHT(o.ROTATE(KB,0),64)
+    K3 = o.LEFT(o.ROTATE(KR,15),64)
+    K4 = o.RIGHT(o.ROTATE(KR,15),64)
+    K5 = o.LEFT(o.ROTATE(KA,15),64)
+    K6 = o.RIGHT(o.ROTATE(KA,15),64)
+
+    KL1 = o.LEFT(o.ROTATE(KR,30),64)
+    KL2 = o.RIGHT(o.ROTATE(KR,30),64)
+
+    K7 = o.LEFT(o.ROTATE(KB,30),64)
+    K8 = o.RIGHT(o.ROTATE(KB,30),64)
+    K9 = o.LEFT(o.ROTATE(KL,45),64)
+    K10 = o.RIGHT(o.ROTATE(KL,45),64)
+    K11 = o.LEFT(o.ROTATE(KA,45),64)
+    K12 = o.RIGHT(o.ROTATE(KA,45),64)
+
+    KL3 = o.LEFT(o.ROTATE(KL,60),64)
+    KL4 = o.RIGHT(o.ROTATE(KL,60),64)
+
+    K13 = o.LEFT(o.ROTATE(KR,60),64)
+    K14 = o.RIGHT(o.ROTATE(KR,60),64)
+    K15 = o.LEFT(o.ROTATE(KB,60),64)
+    K16 = o.RIGHT(o.ROTATE(KB,60),64)
+    K17 = o.LEFT(o.ROTATE(KL,77),64)
+    K18 = o.RIGHT(o.ROTATE(KL,77),64)
+
+    KL5 = o.LEFT(o.ROTATE(KA,77),64)
+    KL6 = o.RIGHT(o.ROTATE(KA,77),64)
+
+    K19 = o.LEFT(o.ROTATE(KR,94),64)
+    K20 = o.RIGHT(o.ROTATE(KR,94),64)
+    K21 = o.LEFT(o.ROTATE(KA,94),64)
+    K22 = o.RIGHT(o.ROTATE(KA,94),64)
+    K23 = o.LEFT(o.ROTATE(KL,111),64)
+    K24 = o.RIGHT(o.ROTATE(KL,111),64)
+        
+    KW3 = o.LEFT(o.ROTATE(KB,111),64) 
+    KW4 = o.RIGHT(o.ROTATE(KB,111),64)
+
+    return (KW1, KW2, K1, K2, K3, K4, K5, K6, KL1, KL2, K7, K8, K9, K10, K11, K12, KL3, KL4, K13, K14, K15, K16, K17, K18, KL5, KL6, K19, K20, K21, K22, K23, K24, KW3, KW4)
+
+# ============================================================^ Subkeys Generation  ^============================================================
