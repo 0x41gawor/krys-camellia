@@ -6,7 +6,8 @@ def OR(x, y):
     return bytes(a | b for a, b in zip(x, y))
 # from the given two vectors, creates a new one as the result of XOR operation bit by bit
 def XOR(x, y):
-    return bytes(a ^ b for a, b in zip(x, y))
+    res = bytes(a ^ b for a, b in zip(x, y))
+    return ''.join([format(x, 'b') for x in res]).encode('ascii')
 # from the given vector, creates a new one as the result of XOR operation bit by bit
 def NOT(x):
     return bytes(a ^ 1 for a in x)

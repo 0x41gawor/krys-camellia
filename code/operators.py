@@ -9,7 +9,8 @@ def NOT(x):
     return bytes(a ^ 1 for a in x)
 # from the given two vectors, creates a new one as the result of XOR operation bit by bit
 def XOR(x, y):
-    return bytes(((a|b) & (~(a&b)) ) for a, b in zip(x, y))
+    res = bytes(a ^ b for a, b in zip(x, y))
+    return ''.join([format(x, 'b') for x in res]).encode('ascii')
 # returns `n` most-left bits from `x` vector
 def LEFT(x, n):
     return x[:n]
