@@ -299,3 +299,26 @@ def feistel_block(D1D2, keys):
 
     return D1, D2
 # ============================================================^   FEISTEL BLOCK  ^===============================================================
+
+# =============================================================   FL FUNCTIONS  =================================================================
+
+def FL_function(x, k):
+    XL = o.LEFT(x, 32)
+    XR = o.RIGHT(x, 32)
+    KL = o.LEFT(k, 32)
+    KR = o.RIGHT(k, 32)
+    YR = o.XOR(o.ROTATE(o.AND(XL, KL), 1), XR)
+    YL = o.XOR(o.OR(YR, KR), XL)
+    output = o.CONCATENATE(YL, YR)
+    return output
+
+def FL1_function(y, k):
+    YL = o.LEFT(y, 32)
+    YR = o.RIGHT(y, 32)
+    KL = o.LEFT(k, 32)
+    KR = o.RIGHT(k, 32)
+    XL = o.XOR(o.OR(YR, KR), YL)
+    XR = o.XOR(o.ROTATE(o.AND(XL, KL), 1), YR)
+    output = o.CONCATENATE(XL, XR)
+    return output
+# ============================================================^   FL FUNCTIONS  ^================================================================
