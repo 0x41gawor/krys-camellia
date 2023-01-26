@@ -1,9 +1,9 @@
 import operators as o
 
-x1 = b'0000000100000001110000010101000001111100101010100101011100001110'
+# This file contains code used for converting between our own types
 
-x2 = b'11001001'
 
+# maps 4 bits to the hex symbol
 def map_bin_to_hex(input):
     if (input == '0000'):
         return '0'
@@ -39,7 +39,7 @@ def map_bin_to_hex(input):
         return 'F'
     else:
         print("FATAL EXCEPTION")
-
+# maps 1 hex symbol to string of 4 bits
 def map_hex_to_bin(input):
     if (input == '0'):
         return b'0000'
@@ -76,7 +76,7 @@ def map_hex_to_bin(input):
     else:
         print("FATAL EXCEPTION")
     
-
+# maps ascii symbol to corresponding hex representation
 def map_ascii_to_hex(input):
     if (input == 'a'):
         return '61'
@@ -135,7 +135,7 @@ def map_ascii_to_hex(input):
     else:
         print("FATAL EXCEPTION")
 
-
+# maps hex representation of an ascii symbol to ascii symbol
 def map_hex_to_ascii(input):
     if (input == '61'):
         return 'a'
@@ -196,6 +196,7 @@ def map_hex_to_ascii(input):
     else:
         print("FATAL EXCEPTION")
 
+# maps from our binary type to our hex type bin-->hex
 def to_hex(x):
     hex_symbols = []
     i = 0
@@ -208,8 +209,7 @@ def to_hex(x):
             temp = ''
   
     return 'hex\'' + ''.join(hex_symbols) + '\''
-
-
+# maps from our hex type to our binary type
 def from_hex(x):
     x = x[4:]
     x = x[:-1]
@@ -218,15 +218,14 @@ def from_hex(x):
         result = o.CONCATENATE(result,map_hex_to_bin(x))
     
     return result
-
+# maps from our ascii type to our hex type
 def from_ascii(x):
     hex_symbols = []
     for x in x:
         hex_symbols.append(map_ascii_to_hex(x))
 
     return 'hex\'' + ''.join(hex_symbols) + '\''
-
-
+# maps from our hex type to our ascii type
 def to_ascii(x):
     x = x[4:]
     x = x[:-1]

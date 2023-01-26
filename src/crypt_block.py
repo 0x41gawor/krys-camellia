@@ -1,6 +1,7 @@
-# The name of the file is silly but the meaning is as follows: Common_part('encrypt', 'decrypt')
+# The name of the file is silly but the meaning is as follows: Common_part('encrypt', 'decrypt') + block
 from lib import *
 
+# encrypts single 128-bit block with camellia cipher
 def encrypt_block(PLAINTEXT, KEY):
 
     KL, KR = KL_KR_derivation(KEY)
@@ -47,7 +48,7 @@ def encrypt_block(PLAINTEXT, KEY):
 
     CIPHERTEXT = CONCATENATE(D1,D2)
     return CIPHERTEXT
-
+# decrypts single 128-bit block with camellia cipher
 def decrypt_block(CIPHERTEXT, KEY):
 
     KL, KR = KL_KR_derivation(KEY)

@@ -1,5 +1,4 @@
-# Key derivation
-# KL i KR mają mieć po 128bitów
+# defines functions for base components of camellia
 
 from main import N_KEY_BITS
 from operators import *

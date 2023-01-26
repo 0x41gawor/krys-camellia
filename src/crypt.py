@@ -1,5 +1,8 @@
 from crypt_block import *
 
+# This file contains functions for encryption/decryption of the any  number of bits
+# It handles the 128-block creation, padding in a ECB (Electrionic CodeBook) manner
+
 # as the name suggest, includes padding
 def get_128bit_blocks(TEXT):
     text_blocks = []

@@ -1,3 +1,5 @@
+# Defines base operations on our own binary type, these operations are obtained from 'docs/KRYS_PROJEKT_CAMELLIA.pdf/' section 2.2
+
 # from the given two vectors, creates a new one as the result of AND operation bit by bit
 def AND(x, y):
    return bytes(a & b for a, b in zip(x, y))
