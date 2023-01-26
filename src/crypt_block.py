@@ -1,4 +1,4 @@
-# The name of the file is silly but the meaning is a follows: Common_part('encrypt', 'decrypt')
+# The name of the file is silly but the meaning is as follows: Common_part('encrypt', 'decrypt')
 from lib import *
 
 def encrypt_block(PLAINTEXT, KEY):

@@ -189,6 +189,8 @@ def map_hex_to_ascii(input):
         return 'y'
     elif (input == '7A'):
         return 'z'  
+    elif (input == '00'): # usuniecie paddingu
+        return '' 
     elif (input == '20'):
         return ' '
     else:
@@ -205,10 +207,12 @@ def to_hex(x):
             hex_symbols.append(map_bin_to_hex(temp))
             temp = ''
   
-    return ''.join(hex_symbols)
+    return 'hex\'' + ''.join(hex_symbols) + '\''
 
 
 def from_hex(x):
+    x = x[4:]
+    x = x[:-1]
     result = bytes()
     for x in x:
         result = o.CONCATENATE(result,map_hex_to_bin(x))
@@ -220,31 +224,17 @@ def from_ascii(x):
     for x in x:
         hex_symbols.append(map_ascii_to_hex(x))
 
-    return ''.join(hex_symbols)
+    return 'hex\'' + ''.join(hex_symbols) + '\''
 
 
 def to_ascii(x):
+    x = x[4:]
+    x = x[:-1]
     length = len(x)
     i = 0
     result = ''
-    while i < length:
+    while i < length-1:
         result += map_hex_to_ascii(x[i]+x[i+1])
         i += 2
     
-    return result
-
-ascii = 'twoi ludzie jemioly'
-print(ascii)
-print(len(ascii))
-x = from_ascii(ascii)
-print(x)
-print(len(x))
-b = from_hex(x)
-print(b)
-print(len(b))
-h = to_hex(b)
-print(h)
-print(len(h))
-ascii2 = to_ascii(h)
-print(ascii2)
-print(len(ascii2))
+    return 'ascii\'' + result + '\''
