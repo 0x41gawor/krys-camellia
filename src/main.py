@@ -1,5 +1,5 @@
-from hex_to_bin import *
-from crypt_block import *
+from convert import *
+from crypt import *
 import sys
 
 
@@ -12,57 +12,12 @@ KEY =       from_hex('0AAABBB0011111100FFFFFF006969690') #128
 PLAINTEXT = from_hex('00001111000011110000111100001111000011110000111100001111000011110AAABBB0011111100FFFFFF00696AABDF111221321432421211')
 
 
-
-# as the name suggest, includes padding
-def get_128bit_blocks(TEXT):
-    text_blocks = []
-    import math
-    loops_count = math.ceil(len(TEXT) / 128)
-
-    for i in range(loops_count-1):
-        text_blocks.append(LEFT(TEXT, 128))
-        TEXT = TEXT[128:]
-
-    for i in range(128-len(TEXT)):
-        TEXT += b'0'
-    
-    text_blocks.append(TEXT)
-
-    return text_blocks
-
-
-def encrypt(plaintext, key):
-    plaintext_blocks = get_128bit_blocks(plaintext)
-    ciphertext = b''
-    for i in plaintext_blocks:
-        ciphertext += encrypt_block(i, key)
-    return ciphertext
-
-
-def decrypt(ciphertext, key):
-    ciphertext_blocks = get_128bit_blocks(ciphertext)
-    plaintext = b''
-    for i in ciphertext_blocks:
-        plaintext += decrypt_block(i, key)
-    plaintext = o.LEFT(plaintext, len(PLAINTEXT))
-    return plaintext
-
-
 if __name__ == "__main__":
     # KEY = from_hex(sys.argv[1])
     # PLAINTEXT = from_hex(sys.argv[2])
 
-    # print(to_hex(PLAINTEXT))
-    # CIPHERTEXT = encrypt_block(PLAINTEXT, KEY)
-    # print(to_hex(CIPHERTEXT))
-    # PLAINTEXT = decrypt_block(CIPHERTEXT, KEY)
-    # print(to_hex(PLAINTEXT))
-
-    print(PLAINTEXT)
-    print(len(PLAINTEXT))
+    print(to_hex(PLAINTEXT))
     CIPHERTEXT = encrypt(PLAINTEXT, KEY)
-    print(CIPHERTEXT)
-    print(len(CIPHERTEXT))
+    print(to_hex(CIPHERTEXT))
     PLAINTEXT = decrypt(CIPHERTEXT, KEY)
-    print(PLAINTEXT)
-    print(len(PLAINTEXT))
+    print(to_hex(PLAINTEXT))

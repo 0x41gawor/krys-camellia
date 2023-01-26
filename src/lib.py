@@ -3,7 +3,7 @@
 
 from main import N_KEY_BITS
 from operators import *
-from hex_to_bin import *
+from convert import *
 
 # ================================================================== S-Box =================================================================
 
