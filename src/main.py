@@ -9,7 +9,7 @@ N_KEY_BITS = 128
 KEY =       from_hex('0AAABBB0011111100FFFFFF006969690') #128
 # KEY =      from_hex('0AAABBB0011111100FFFFFF0069696900FFFFFF006969690') #192
 # KEY =      from_hex('0AAABBB0011111100FFFFFF0069696900AAABBB0011111100FFFFFF006969690') #256
-PLAINTEXT = from_hex('00001111000011110000111100001111000011110000111100001111000011110AAABBB0011111100FFFFFF00696AABDF')
+PLAINTEXT = from_hex('00001111000011110000111100001111000011110000111100001111000011110AAABBB0011111100FFFFFF00696AABDF111221321432421211')
 
 
 
@@ -31,6 +31,23 @@ def get_128bit_blocks(TEXT):
     return text_blocks
 
 
+def encrypt(plaintext, key):
+    plaintext_blocks = get_128bit_blocks(plaintext)
+    ciphertext = b''
+    for i in plaintext_blocks:
+        ciphertext += encrypt_block(i, key)
+    return ciphertext
+
+
+def decrypt(ciphertext, key):
+    ciphertext_blocks = get_128bit_blocks(ciphertext)
+    plaintext = b''
+    for i in ciphertext_blocks:
+        plaintext += decrypt_block(i, key)
+    plaintext = o.LEFT(plaintext, len(PLAINTEXT))
+    return plaintext
+
+
 if __name__ == "__main__":
     # KEY = from_hex(sys.argv[1])
     # PLAINTEXT = from_hex(sys.argv[2])
@@ -40,5 +57,12 @@ if __name__ == "__main__":
     # print(to_hex(CIPHERTEXT))
     # PLAINTEXT = decrypt_block(CIPHERTEXT, KEY)
     # print(to_hex(PLAINTEXT))
-    plaintext_blocks = get_128bit_blocks(PLAINTEXT)
-    print(plaintext_blocks)
+
+    print(PLAINTEXT)
+    print(len(PLAINTEXT))
+    CIPHERTEXT = encrypt(PLAINTEXT, KEY)
+    print(CIPHERTEXT)
+    print(len(CIPHERTEXT))
+    PLAINTEXT = decrypt(CIPHERTEXT, KEY)
+    print(PLAINTEXT)
+    print(len(PLAINTEXT))
