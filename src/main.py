@@ -16,14 +16,14 @@ if __name__ == "__main__":
     # KEY = from_hex(sys.argv[1])
     # PLAINTEXT = from_hex(sys.argv[2])
 
-    PLAINTEXT = 'twoi ludzie dziecioly'
-    print('ascii\'' + PLAINTEXT + '\'')
+    PLAINTEXT = 'moi ludzie dziecioly'
+    print('PLAINTEXT: ascii\'' + PLAINTEXT + '\'')
     PLAINTEXT = from_ascii(PLAINTEXT)
     PLAINTEXT = from_hex(PLAINTEXT)
     CIPHERTEXT = encrypt(PLAINTEXT, KEY)
     print('CIPHERTEXT: ' + to_hex(CIPHERTEXT))
     PLAINTEXT = decrypt(CIPHERTEXT, KEY)
     PLAINTEXT = to_hex(PLAINTEXT)
-    print(PLAINTEXT)
+    print('PLAINTEXT: '+ PLAINTEXT)
     PLAINTEXT = to_ascii(PLAINTEXT)
-    print(PLAINTEXT)
+    print('PLAINTEXT: ' + PLAINTEXT)
