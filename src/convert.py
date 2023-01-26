@@ -77,6 +77,123 @@ def map_hex_to_bin(input):
         print("FATAL EXCEPTION")
     
 
+def map_ascii_to_hex(input):
+    if (input == 'a'):
+        return '61'
+    elif (input == 'b'):
+        return '62'
+    elif (input == 'c'):
+        return '63'
+    elif (input == 'd'):
+        return '64'
+    elif (input == 'e'):
+        return '65'   
+    elif (input == 'f'):
+        return '66'
+    elif (input == 'g'):
+        return '67'
+    elif (input == 'h'):
+        return '68'
+    elif (input == 'i'):
+        return '69'  
+    elif (input == 'j'):
+        return '6A'
+    elif (input == 'k'):
+        return '6B'
+    elif (input == 'l'):
+        return '6C'
+    elif (input == 'm'):
+        return '6D'  
+    elif (input == 'n'):
+        return '6E'
+    elif (input == 'o'):
+        return '6F'
+    elif (input == 'p'):
+        return '70'
+    elif (input == 'q'):
+        return '71'
+    elif (input == 'r'):
+        return '72'  
+    elif (input == 's'):
+        return '73'
+    elif (input == 't'):
+        return '74'
+    elif (input == 'u'):
+        return '75'
+    elif (input == 'v'):
+        return '76'  
+    elif (input == 'w'):
+        return '77'
+    elif (input == 'x'):
+        return '78'
+    elif (input == 'y'):
+        return '79'
+    elif (input == 'z'):
+        return '7A'
+    elif (input == ' '):
+        return '20'
+    else:
+        print("FATAL EXCEPTION")
+
+
+def map_hex_to_ascii(input):
+    if (input == '61'):
+        return 'a'
+    elif (input == '62'):
+        return 'b'
+    elif (input == '63'):
+        return 'c'
+    elif (input == '64'):
+        return 'd'
+    elif (input == '65'):
+        return 'e'   
+    elif (input == '66'):
+        return 'f'
+    elif (input == '67'):
+        return 'g'
+    elif (input == '68'):
+        return 'h'
+    elif (input == '69'):
+        return 'i'  
+    elif (input == '6A'):
+        return 'j'
+    elif (input == '6B'):
+        return 'k'
+    elif (input == '6C'):
+        return 'l'
+    elif (input == '6D'):
+        return 'm'  
+    elif (input == '6E'):
+        return 'n'
+    elif (input == '6F'):
+        return 'o'
+    elif (input == '70'):
+        return 'p'
+    elif (input == '71'):
+        return 'q'
+    elif (input == '72'):
+        return 'r'  
+    elif (input == '73'):
+        return 's'
+    elif (input == '74'):
+        return 't'
+    elif (input == '75'):
+        return 'u'
+    elif (input == '76'):
+        return 'v'  
+    elif (input == '77'):
+        return 'w'
+    elif (input == '78'):
+        return 'x'
+    elif (input == '79'):
+        return 'y'
+    elif (input == '7A'):
+        return 'z'  
+    elif (input == '20'):
+        return ' '
+    else:
+        print("FATAL EXCEPTION")
+
 def to_hex(x):
     hex_symbols = []
     i = 0
@@ -88,7 +205,7 @@ def to_hex(x):
             hex_symbols.append(map_bin_to_hex(temp))
             temp = ''
   
-    return 'hex\''+ ''.join(hex_symbols) + '\''
+    return ''.join(hex_symbols)
 
 
 def from_hex(x):
@@ -97,3 +214,37 @@ def from_hex(x):
         result = o.CONCATENATE(result,map_hex_to_bin(x))
     
     return result
+
+def from_ascii(x):
+    hex_symbols = []
+    for x in x:
+        hex_symbols.append(map_ascii_to_hex(x))
+
+    return ''.join(hex_symbols)
+
+
+def to_ascii(x):
+    length = len(x)
+    i = 0
+    result = ''
+    while i < length:
+        result += map_hex_to_ascii(x[i]+x[i+1])
+        i += 2
+    
+    return result
+
+ascii = 'twoi ludzie jemioly'
+print(ascii)
+print(len(ascii))
+x = from_ascii(ascii)
+print(x)
+print(len(x))
+b = from_hex(x)
+print(b)
+print(len(b))
+h = to_hex(b)
+print(h)
+print(len(h))
+ascii2 = to_ascii(h)
+print(ascii2)
+print(len(ascii2))
